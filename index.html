@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0F3831">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="description" content="Calculateur interne NRJ Ingénierie pour déterminer le forfait de pose photovoltaïque selon les conditions du chantier.">
+  <title>Calculateur pose PV — NRJ Ingénierie</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./assets/css/styles.css">
+</head>
+<body>
+  <header class="app-header">
+    <div class="header-inner">
+      <div>
+        <p class="brand-text">NRJ Ingénierie</p>
+        <h1>Calculateur de forfait de pose</h1>
+        <p class="header-subtitle">Photovoltaïque · barème du 28/09/2026</p>
+      </div>
+      <button class="button button-secondary button-compact" id="resetTop" type="button">Nouveau chantier</button>
+    </div>
+  </header>
+
+  <main class="layout" id="calculatorForm">
+    <section class="intro-card" aria-labelledby="introTitle">
+      <div class="intro-icon" aria-hidden="true">✓</div>
+      <div>
+        <h2 id="introTitle">Renseignez le chantier</h2>
+        <p>Le résultat se met à jour automatiquement. Aucun compte et aucune donnée envoyée à un serveur.</p>
+      </div>
+    </section>
+
+    <section class="section-card" aria-labelledby="installationTitle">
+      <div class="section-heading">
+        <span class="section-number">1</span>
+        <div>
+          <h2 id="installationTitle">Installation</h2>
+          <p>Puissance et configuration générale.</p>
+        </div>
+      </div>
+
+      <div class="criterion number-criterion">
+        <div class="criterion-title-row">
+          <label class="criterion-title" for="puissance">Puissance de l'installation</label>
+          <span class="required-badge">Obligatoire</span>
+        </div>
+        <div class="number-input-wrap" id="powerInputWrap">
+          <input id="puissance" name="puissance" type="number" min="0" max="99" step="0.1" inputmode="decimal" placeholder="Ex. 6,5" autocomplete="off" aria-describedby="powerHelp powerError">
+          <span class="unit">kWc</span>
+        </div>
+        <div class="quick-values" aria-label="Valeurs rapides de puissance">
+          <button type="button" class="quick-value" data-power="3">3 kWc</button>
+          <button type="button" class="quick-value" data-power="6">6 kWc</button>
+          <button type="button" class="quick-value" data-power="9">9 kWc</button>
+          <button type="button" class="quick-value" data-power="12">12 kWc</button>
+        </div>
+        <p class="helper" id="powerHelp">Forfaits automatiques de 1 à 12 kWc. En dehors : devis manuel.</p>
+        <p class="field-error" id="powerError" role="alert" hidden></p>
+      </div>
+
+      <div id="group-nombre_toits"></div>
+      <div id="group-etages"></div>
+    </section>
+
+    <section class="section-card" aria-labelledby="roofTitle">
+      <div class="section-heading">
+        <span class="section-number">2</span>
+        <div>
+          <h2 id="roofTitle">Toiture</h2>
+          <p>Support, accès et état du toit.</p>
+        </div>
+      </div>
+
+      <div id="group-type_toiture"></div>
+      <div class="inline-alert warning" id="fibroWarning" hidden>
+        <strong>Fibrociment :</strong> vérifier la présence d'amiante avant de confirmer le forfait.
+      </div>
+      <div class="inline-alert info" id="notApplicableNotice" hidden>
+        Pour une pose au sol, un carport ou une pergola, les étages, l'accessibilité et l'âge de toiture sont automatiquement remis à leur valeur à 0 point.
+      </div>
+      <div id="group-accessibilite"></div>
+      <div id="group-age_toiture"></div>
+    </section>
+
+    <section class="section-card" aria-labelledby="electricalTitle">
+      <div class="section-heading">
+        <span class="section-number">3</span>
+        <div>
+          <h2 id="electricalTitle">Électricité</h2>
+          <p>Passage, alimentation et options.</p>
+        </div>
+      </div>
+
+      <div id="group-passage_cables"></div>
+      <div id="group-alimentation"></div>
+      <div id="group-batterie"></div>
+      <div id="group-backup"></div>
+      <div class="inline-alert warning" id="backupWarning" hidden>
+        <strong>À vérifier :</strong> le backup est activé alors que la batterie physique est indiquée « Non ».
+      </div>
+    </section>
+
+    <section class="section-card" aria-labelledby="travelTitle">
+      <div class="section-heading">
+        <span class="section-number">4</span>
+        <div>
+          <h2 id="travelTitle">Déplacement</h2>
+          <p>Distance entre l'agence et le chantier.</p>
+        </div>
+      </div>
+
+      <div class="criterion number-criterion">
+        <label class="criterion-title" for="distance_km">Distance depuis l'agence</label>
+        <div class="number-input-wrap" id="distanceInputWrap">
+          <input id="distance_km" name="distance_km" type="number" min="0" step="1" inputmode="numeric" value="0" autocomplete="off" aria-describedby="distanceHelp distanceError">
+          <span class="unit">km</span>
+        </div>
+        <p class="helper" id="distanceHelp">30 km est inclus dans la première tranche ; 60 km dans la deuxième.</p>
+        <p class="field-error" id="distanceError" role="alert" hidden></p>
+      </div>
+    </section>
+
+    <section class="bottom-actions" aria-label="Actions">
+      <button class="button button-secondary" id="resetBottom" type="button">Nouveau chantier</button>
+    </section>
+  </main>
+
+  <aside class="result-bar" id="resultBar" aria-live="polite">
+    <div class="result-main">
+      <div>
+        <span class="result-kicker" id="resultKicker">Résultat</span>
+        <div class="result-title" id="resultTitle">Renseignez la puissance</div>
+      </div>
+      <div class="result-price" id="resultPrice" hidden></div>
+    </div>
+    <div class="result-meta">
+      <span id="resultScore">Score —</span>
+      <button class="details-button" id="openDetails" type="button" disabled>Voir le détail</button>
+    </div>
+  </aside>
+
+  <dialog class="details-dialog" id="detailsDialog" aria-labelledby="detailsTitle">
+    <div class="dialog-header">
+      <div>
+        <p class="dialog-kicker">Calcul du chantier</p>
+        <h2 id="detailsTitle">Détail du forfait</h2>
+      </div>
+      <button class="close-button" id="closeDetails" type="button" aria-label="Fermer le détail">×</button>
+    </div>
+    <div class="dialog-body">
+      <div class="detail-summary" id="detailSummary"></div>
+      <div class="breakdown" id="breakdown"></div>
+      <div class="detail-explanation" id="detailExplanation"></div>
+    </div>
+  </dialog>
+
+  <script type="module" src="./assets/js/app.js"></script>
+</body>
+</html>
