@@ -306,7 +306,7 @@ function requestReset() {
 
 function resetForm() {
   powerInput.value = "";
-  distanceInput.value = "0";
+  distanceInput.value = "";
   for (const [key, value] of Object.entries(DEFAULTS)) {
     const input = document.querySelector(`input[name="${key}"][value="${cssEscape(value)}"]`);
     if (input) input.checked = true;
